@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<!-- Restroom Revolution - mobile website for displaying information about 
+	gender inclusive, accessible, and lactation-supportive restrooms on the 
+	University of Iowa campus.
+
+	Copyright 2013 Kelly Thompson, Bennett Magnino, and Kassi Smith.
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+	-->
+ 
+	<head>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		
+		<meta name="HandheldFriendly"  content="True" />
+		<meta name="MobileOptimized" content="width"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+		<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+
+  		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  		<script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+  		<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+		<style>
+			#featuresdiv {margin-left: auto; margin-right: auto; width: 90%;}
+			#featuresform label .ui-icon-checkbox-off {display:none;}
+			#featuresform fieldset div div{display:inline-block;}
+			.checkboximage{
+				width:75px;
+				height:75px;
+				border-radius:7px;
+				margin:1px !important;
+				background: url("featurespriteselected.png");}
+			.checkedimage{background:url("featuresprite3.png");}
+			
+			#menlabel{background-position:0px 0px;}
+			#genderneutrallabel{background-position:-76px 0px;}
+			#womenlabel{background-position:-152px 0px;}
+			#accessiblelabel{background-position:0px -76px;}
+			#sinklabel{background-position:-76px -76px;}
+			#sharpslabel{background-position:-152px -76px;}
+			#lactationlabel{background-position:0 -152px;}
+			#changingtablelabel{background-position:-76px -152px;}
+			#braillelabel{background-position:-152px -152px;}
+			#showerlabel{background-position:0 -228px;}
+			#privatelabel{background-position:-76px -228px;}
+			.ablabel{background:url("featuresprite3.png")-152px -228px;}
+			
+			.featureicon{
+				width:30px;
+				height:30px;
+				margin-right:1px;
+				margin-top:1px;
+				border:0px;
+				padding:0px;
+				background-image:url("featuresprite3.png");
+				display:inline-block;}	
+			.accessibleicon{background-position:-228px 0px;}
+			.sinkicon{background-position:-228px -31px;}
+			.sharpsicon{background-position:-228px -62px;}
+			.lactationicon{background-position:-228px -93px;}
+			.changingtableicon{background-position:-228px -124px;}
+			.brailleicon{background-position:-228px -155px;}
+			.showericon{background-position:-228px -186px;}
+			.privateicon{background-position:-228px -217px;}
+			.womenicon{background-position:-228px -248px;}
+			.genderneutralicon{background-position:-228px -279px;}
+			.menicon{background-position:-228px -310px;}
+			
+			#map-canvas {height: 100%; width: 100%;}
+			.mapmatch {
+				background-image:url("gradient.png");
+				background-repeat: repeat-x;
+				background-position: bottom;
+				}
+				
+			.buildingname {font-weight:bold;}
+			.mapmatch a {color: #000000;}	
+			.hidemap {display: none;}
+		</style>
+			<TITLE>Restroom Revolution</TITLE>
+		<script type="text/javascript"
+		  src="https://maps.googleapis.com/maps/api/js?key=REDACTED&sensor=false">
+		</script>
+	</head>
+
+	<body>
+			<!-- Start of home page -->
+			<div data-role="page" id="home">
+
+				<div data-role="header">
+					<h1>RestRev</h1>
+				</div><!-- /header -->
+
+				<div data-role="content">
+					<p>Search for a restroom by:</p>
+					
+					<ul data-role="listview" data-inset="true">
+					    <li><a href="#features">Restroom Features</a></li>
+					    <li><a href="#building">Building Name</a></li>
+					</ul>
+					<ul data-role="listview" data-inset="true">
+						<li><a href="#about">About RR</a></li>
+					</ul>
+				</div><!-- /content -->
+
+				<div data-role="footer" data-position="fixed">
+					<span class="ui-title"></span>
+				</div><!-- /footer -->
+			</div><!-- /page -->
+			
+			<!-- Start of about page -->
+			<div data-role="page" id="about" data-add-back-btn="true">
+				<div data-role="header">
+					<h1>About</h1>
+					<a href="#home" data-icon="home" data-theme="a" class="ui-btn-right">Home</a>
+				</div><!-- /header -->
+				<div data-role="content">
+					<p>The Restroom Revolution mobile web site was originally created by Kelly Thompson, Kassi Smith, and Bennett Magnino (listed in reverse alphabetical order) for their Mobile Web Design course in the University of Iowa School of Library and Information Science under the instruction of Dr. Haowei Hsieh.  </br>The idea for the app came from Avi Deol, a student in the University of Iowa School of Social Work.  Avi started a campus-based group named Restroom Revolution in the spring of 2013 to collect data on accessbility features in campus restrooms, with an eye toward assisting community members to find bathrooms on the fly which fit their needs.</p>
+				</div><!-- /content -->
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#features">Features</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- /page -->
+
+			<!-- Start of building page -->
+						
+			<div data-role="page" id="building" data-add-back-btn="true">
+				<div data-role="header">
+					<h1>Building</h1>
+					<a href="#home" data-icon="home" data-theme="a" class="ui-btn-right">Home</a>
+				</div><!-- /header -->
+				<div data-role="content">
+					<ul id="output" data-role="listview" data-filter="true" data-filter-placeholder="Search building list..." data-inset="true">
+					</ul>
+				</div><!-- /content -->
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#features">Features</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- /page -->
+			
+			<!-- Start of feature page -->
+			<div data-role="page" id="features" data-add-back-btn="true">
+
+				<div data-role="header">
+					<h1>Features</h1>
+					<a href="#home" data-icon="home" data-theme="a" class="ui-btn-right">Home</a>
+				</div><!-- /header -->
+
+				<div data-role="content">
+					<form name="featuresform" method="post" id="featuresform">
+						<div id="featuresdiv">
+						<fieldset class="ui-grid-b">
+							<div class="ui-block-a">
+								<input name="private" id="private" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="private" class="checkboximage" id="privatelabel"></label>
+								<input name="changingtable" id="changingtable" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="changingtable" class="checkboximage" id="changingtablelabel"></label>
+								<input name="sharps" id="sharps" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="sharps" class="checkboximage" id="sharpslabel"></label>
+								<input name="lactation" id="lactation" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="lactation" class="checkboximage" id="lactationlabel"></label>
+							</div>
+							<div class="ui-block-b">
+								<input name="braille" id="braille" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="braille" class="checkboximage" id="braillelabel"></label>
+								<input name="sink" id="sink" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="sink" class="checkboximage" id="sinklabel"></label>
+								<input name="accessible" id="accessible" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="accessible" class="checkboximage" id="accessiblelabel"></label>
+								<input name="shower" id="shower" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="shower" class="checkboximage" id="showerlabel"></label>
+							</div>
+							<div class="ui-block-c">
+								<input name="genderneutral" id="genderneutral" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="genderneutral" class="checkboximage" id="genderneutrallabel"></label>
+								<input name="women" id="women" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="women" class="checkboximage" id="womenlabel"></label>
+								<input name="men" id="men" data-theme="a" type="checkbox" class="featurecheckbox">
+									<label for="men" class="checkboximage" id="menlabel"></label>
+								<div><a href="#key" data-rel="popup">
+									<div class="checkboximage ablabel ui-checkbox-off ui-btn ui-btn-up-a ui-btn-corner-all ui-fullsize ui-btn-icon-left"></div>
+								</a></div>
+							</div>
+						</fieldset><!-- /grid-a -->
+						</div>
+						<div class="ui-grid-a">
+							<div class="ui-block-a"><input type="submit" value="List View" onclick="featuresresult()" data-theme="a"></input></div>
+							<div class="ui-block-c"><input type="submit" value="Map View" onclick="makemap()" data-theme="a"></input></div>
+						</div>
+					</form>	
+					<div data-role="popup" id="key" class="ui-content">
+						<a href="#" data-rel="back" data-role="button" data-theme="a" 
+						data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+							<table>
+								<tr><td><div class="featureicon accessibleicon"></div></td>
+									<td>Wheelchair Accessible Stall</td></tr>
+								<tr><td><div class="featureicon sinkicon"></div></td>
+									<td>Height Accessible Sink</td></tr>
+								<tr><td><div class="featureicon sharpsicon"></div></td>
+									<td>Sharps Container</td></tr>
+								<tr><td><div class="featureicon lactationicon"></div></td>
+									<td>Lactation Room</td></tr>
+								<tr><td><div class="featureicon changingtableicon"></div></td>
+									<td>Changing Table</td></tr>
+								<tr><td><div class="featureicon brailleicon"></div></td>
+									<td>Braille Signage</td></tr>
+								<tr><td><div class="featureicon showericon"></div></td>
+									<td>Shower</td></tr>
+								<tr><td><div class="featureicon privateicon"></div></td>
+									<td>Private Bathroom</td></tr>
+								<tr><td><div class="featureicon womenicon"></div></td>
+									<td>Women's Restroom</td></tr>
+								<tr><td><div class="featureicon genderneutralicon"></div></td>
+									<td>Gender Neutral Restroom</td></tr>
+								<tr><td><div class="featureicon menicon"></div></td>
+									<td>Men's Restroom</td></tr>
+							</table>
+					</div>
+				</div><!-- /content -->
+
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#building">Building</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- /page -->
+			
+			<!-- Start of feature search results page -->
+			<div data-role="page" id="featuresresult" data-add-back-btn="true">
+				<div data-role="header">
+					<h1>Results</h1>
+					<a href="#home" data-icon="home" data-theme="a" class="ui-btn-right">Home</a>
+				</div><!-- /header -->
+				<div data-role="content">
+					<ul id="roomlist" data-role="listview" data-filter="true" data-filter-placeholder="Search within results..." data-inset="true">
+					</ul>
+				</div><!-- /content -->
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#features">Revise Search</a></li>
+							<li><a href="#building">Buildings</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- /page -->
+			<!--  -->
+			<!-- Start of restroom detail view page -->
+			<div data-role="page" id="details" data-add-back-btn="true">
+				<div data-role="header">
+					<h1 id="rrName"></h1>
+					<a href="#home" data-icon="home" data-theme="a" class="ui-btn-right">Home</a>
+				</div><!-- /header -->
+				<div data-role="content">
+					<ul id="rrDetails" data-role="listview" data-inset="true" data-divider-theme="d">
+					</ul>
+				</div><!-- /content -->
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#features">Features</a></li>
+							<li><a href="#building">Buildings</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- /page -->
+			
+			<!--  -->
+			<!-- Start of building search results page -->
+			<div data-role="page" id="buildinglist" data-add-back-btn="true">
+				<div data-role="header">
+					<h1 id="bName"></h1>
+					<a href="#home" data-icon="home" data-theme="a" class="ui-btn-right">Home</a>
+				</div><!-- /header -->
+				<div data-role="content">
+					<ul id="listofrooms" data-role="listview" data-filter="true" data-filter-placeholder="Search bathrooms..." data-inset="true">
+					</ul>
+				</div><!-- /content -->
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#features">Features</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- /page -->
+						
+		<!-- start of map results page -->
+			<div data-role="page" class="page-map" id="mapresult" data-add-back-btn="true" style="height:100%; width:100%;">
+				<div data-role="header" data-add-back-btn="true">
+					<h1>Mapped Results</h1>
+					<a href="#home" data-icon="home" data-theme="a" class="ui-btn-right">Home</a>
+				</div><!-- /header -->
+				<div data-role="content" id="map-canvas" style="height:100%; width=100%;"> </div> <!-- map-canvas / test -->
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#features">Revise Search</a></li>
+							<li><a href="#building">Buildings</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- /page -->
+			<!--  -->
+		<script type="text/javascript">
+			//code to change label image when a checkbox is checked
+				$(document).ready(function(){
+					$('.featurecheckbox').on('change', function(){
+						var labelname = $(this).attr("id")+'label';
+						if($(this).is(':checked')) {
+							$("#"+labelname+"").addClass("checkedimage");
+						}
+						else {
+							$("#"+labelname+"").removeClass("checkedimage");
+						}
+					}); //end image change function
+				});//end ready
+		</script>
+		
+		<script type="text/javascript">
+				$(document).ready(function(){
+					var output = $('#output');
+					
+					$.ajax({
+						url: 'building2.php',
+						dataType: 'jsonp',
+						jsonp: 'jsoncallback',
+						timeout: 5000,
+						success: function(data, status){
+							$.each(data, function(i,item){ 
+								var building = '<li><a href="" onclick="blist('+item.building_id+');">'+item.name+'</a></li>';
+								output.append(building);
+							});
+						$('#output').listview('refresh');	
+						},
+						error: function(){
+							output.text('There was an error loading the data.');
+						}
+					});
+				});
+			</script>
+			<script type="text/javascript">
+			//Generate a list of all bathrooms in a building
+				function blist(chosenid) {
+					
+					dataString = 'building_id=' + chosenid;
+					document.getElementById('listofrooms').innerHTML="";
+					var roomlist = $('#listofrooms');
+					
+					$.ajax({
+						url: 'blist.php',
+						type: 'POST',
+						data: dataString,
+						dataType: 'jsonp',
+						jsonp: 'jsoncallback',
+						timeout: 5000,
+						success: function(data, status){
+							
+							$.each(data, function(i,item){ 
+								var searchtext = '<li data-filtertext=" '+item.name+' floor '+item.floor+' '+item.label;
+								var bathroom = '<a href="" onclick="details('+item.id+');">Floor '+item.floor+', '+item.label+'<br />';
+
+								if (item.type=='n'){
+									searchtext = searchtext + 'gender neutral';
+									bathroom = bathroom + '<div class="featureicon genderneutralicon"></div>';}
+								if(item.type=='f'){
+									bathroom = bathroom + '<div class="featureicon womenicon"></div>';}
+								if(item.type=='m'){
+									bathroom = bathroom + '<div class="featureicon menicon"></div>';}
+								if (item.wheelchair_access==1){
+									searchtext = searchtext + ' wheelchair accessible stall';
+									bathroom = bathroom + '<div class="featureicon accessibleicon"></div>';}
+								if(item.accessible_sink==1){
+									searchtext = searchtext + ' wheelchair height accessible sink';
+									bathroom = bathroom + '<div class="featureicon sinkicon"></div>';}
+								if(item.sharps==1){
+									searchtext = searchtext + ' sharps container';
+									bathroom = bathroom + '<div class="featureicon sharpsicon"></div>';}
+								if(item.lactation==1){
+									searchtext = searchtext + ' lactation room';
+									bathroom = bathroom + '<div class="featureicon lactationicon"></div>';}
+								if(item.changing_table==1){
+									searchtext = searchtext + ' changing table';
+									bathroom = bathroom + '<div class="featureicon changingtableicon"></div>';}
+								if(item.braille_sign==1){
+									searchtext = searchtext + ' braille signs';
+									bathroom = bathroom + '<div class="featureicon brailleicon"></div>';}
+								if(item.shower==1){
+									searchtext = searchtext + ' shower';
+									bathroom = bathroom + '<div class="featureicon showericon"></div>';}
+								if(item.private==1){
+									searchtext = searchtext + ' private';
+									bathroom = bathroom + '<div class="featureicon privateicon"></div>';}
+								
+								searchtext = searchtext+'">';
+								bathroom = searchtext + bathroom + '</a></li>';
+								
+								roomlist.append(bathroom);
+								document.getElementById('bName').innerHTML=item.name+'<br>Bathrooms';
+							});
+							
+							window.location.assign("http://REDACTED/REDACTED/rr#buildinglist");
+							$('#listofrooms').listview('refresh');
+						},
+						error: function(){
+							roomlist.write(chosenid);
+							roomlist.text('There was an error loading the data.');
+						}
+					});
+				};
+			</script>
+			<script type="text/javascript">
+			function featuresresult(){
+				document.getElementById('roomlist').innerHTML="";
+				var postData = $('form').serialize();
+				
+				$.ajax({
+					url: 'features.php',
+					type: 'POST',
+					data: postData,
+					dataType: 'jsonp',
+					jsonp: 'jsoncallback',
+					
+					success: function(data, status){
+					document.getElementById('roomlist').innerHTML="";					
+						var featuresearch = $('#roomlist');
+						$.each(data, function(i,item){ 
+							var searchtext = '<li data-filtertext=" '+item.name+' floor '+item.floor+' '+item.label;
+								var bathroom = '<a href="" onclick="details('+item.id+');">'+item.name+' <br />Floor '+item.floor+', '+item.label+'<br />';
+
+								if (item.type=='n'){
+									searchtext = searchtext + 'gender neutral';
+									bathroom = bathroom + '<div class="featureicon genderneutralicon"></div>';}
+								if(item.type=='f'){
+									bathroom = bathroom + '<div class="featureicon womenicon"></div>';}
+								if(item.type=='m'){
+									bathroom = bathroom + '<div class="featureicon menicon"></div>';}
+								if (item.wheelchair_access==1){
+									searchtext = searchtext + ' wheelchair accessible stall';
+									bathroom = bathroom + '<div class="featureicon accessibleicon"></div>';}
+								if(item.accessible_sink==1){
+									searchtext = searchtext + ' wheelchair height accessible sink';
+									bathroom = bathroom + '<div class="featureicon sinkicon"></div>';}
+								if(item.sharps==1){
+									searchtext = searchtext + ' sharps container';
+									bathroom = bathroom + '<div class="featureicon sharpsicon"></div>';}
+								if(item.lactation==1){
+									searchtext = searchtext + ' lactation room';
+									bathroom = bathroom + '<div class="featureicon lactationicon"></div>';}
+								if(item.changing_table==1){
+									searchtext = searchtext + ' changing table';
+									bathroom = bathroom + '<div class="featureicon changingtableicon"></div>';}
+								if(item.braille_sign==1){
+									searchtext = searchtext + ' braille signs';
+									bathroom = bathroom + '<div class="featureicon brailleicon"></div>';}
+								if(item.shower==1){
+									searchtext = searchtext + ' shower';
+									bathroom = bathroom + '<div class="featureicon showericon"></div>';}
+								if(item.private==1){
+									searchtext = searchtext + ' private';
+									bathroom = bathroom + '<div class="featureicon privateicon"></div>';}
+								
+								searchtext = searchtext+'">';
+								bathroom = searchtext + bathroom + '</a></li>';
+								
+							featuresearch.append(bathroom);
+							});
+
+						if (document.getElementById('roomlist').innerHTML=="") {document.getElementById('roomlist').innerHTML="Uh oh. We don't have any bathrooms in our system which match your search criteria. Try another search?";}
+						window.location.assign("http://REDACTED/REDACTED/rr#featuresresult");
+						$('#roomlist').listview('refresh');	
+					},
+					error: function(){
+						featuresearch.text('There was an error in performing your search.');
+					}
+				});
+			};
+		</script>
+		<script type="text/javascript">
+			function details(id){
+				document.getElementById('rrName').innerHTML="";
+				var restroomName = $('#rrName');
+				document.getElementById('rrDetails').innerHTML="";
+				var restroomDetails = $('#rrDetails');
+						
+				dataString = 'bathroom_id=' + id;
+					
+				$.ajax({
+					url: 'details.php',
+					type: 'POST',
+					data: dataString,
+					dataType: 'jsonp',
+					jsonp: 'jsoncallback',
+					
+					success: function(data, status){
+						
+						$.each(data, function(i,item){
+							var rrname = item.name + ' <br>Floor '+item.floor +' '+'<br>'+item.label;
+							restroomName.append(rrname);
+							
+							//var listview = '';
+							//restroomDetails.append(listview);
+							
+							if (item.private==1) {
+								var priv = '<li data-role="list-divider"><h3>Private</h3></li><li>Number of Toilets:'+item.no_toilets+'</li>';}
+								else {
+									var priv = '<li data-role="list-divider"><h3>Not Private</h3></li><li>Number of Toilets: '+item.no_toilets+'</li>';}
+									if (item.no_urinals!=0 && item.no_urinals!=null) {
+										priv = priv + '<li>Number of Urinals: '+item.no_urinals+'</li>';}
+									if (item.no_urinals!=0 && item.no_urinals!=null && item.urinal_type!=null) {
+										priv = priv + '<li>Urinal Type: '+item.urinal_type+'</li>';}
+							restroomDetails.append(priv);
+							
+							if (item.wheelchair_access==1 || item.no_wheelchair_stalls!=0 || item.accessible_sink==1 || item.support_bar==1 || item.braille_sign==1) {
+								var wheel = '<li data-role="list-divider"><h3>Accessibility Features:</h3></li>';}
+								else {
+									var wheel = '<li data-role="list-divider"><h3>Not Accessible</h3></li>';}
+								if (item.wheelchair_access==1) {
+									wheel = wheel + '<li>Wheelchair Accessible</li>';}
+								if (item.no_wheelchair_stalls!=0) {
+									wheel = wheel + '<li>Number of Accessible Stalls: '+item.no_wheelchair_stalls+'</li>';}
+								//if (item.wheelchair_stall_width!=null) {
+									//wheel = wheel + '<li>Wheelchair Stall Width: '+item.wheelchair_stall_width+'"</li>';}
+								if (item.one_side_bar==1) {
+									wheel = wheel + '<li>One Support Bar near Toilet</li>';}
+								if (item.two_side_bar==1) {
+									wheel = wheel + '<li>Two Support Bars near Toilet</li>';}
+								if (item.rear_bar==1) {
+									wheel = wheel + '<li>Rear Support Bar near Toilet</li>';}
+								if (item.least_bar==1) {
+									wheel = wheel + '<li>Support Bar is at least 42" long</li>';}
+								if (item.least_deep==1) {
+									wheel = wheel + '<li>Stall is at least 56" deep</li>';}
+								if (item.least_wide==1) {
+									wheel = wheel + '<li>Stall is at least 60" wide</li>';}	
+								if (item.toe_clear==1) {
+									wheel = wheel + '<li>Toe Clearance at bottom of stall door is at least 9"</li>';}
+								if (item.accessible_sink==1) {
+									wheel = wheel + '<li>Accessible Sink Height</li>';}	
+								//if (item.support_bar==1) {
+									//wheel = wheel + '<li>Support Bar or Hand Rails</li>';}
+								if (item.braille_sign==1) {
+									wheel = wheel + '<li>Braille Signage</li>';}
+							restroomDetails.append(wheel);
+							
+							if (item.changing_table==1 || item.lactation==1) {
+								var fam = '<li data-role="list-divider"><h3>Family Care</h3></li>';
+								if (item.changing_table==1) {
+									fam = fam + '<li>Changing Table</li>';}
+								if (item.lactation==1) {
+									fam = fam + '<li>Lactation Room</li>';}
+							restroomDetails.append(fam);		
+								}	
+							
+							if (item.sharps==1) {
+								var sharps = '<li data-role="list-divider"><h3>Sharps Disposal</h3></li>';
+							restroomDetails.append(sharps);}
+
+							if (item.shower==1) {
+								var shower = '<li data-role="list-divider"><h3>Shower</h3></li>';
+							restroomDetails.append(shower);}
+
+							if (item.notes!=null) {
+								var notes = '<li data-role="list-divider"><h3>Notes:</h3></li><li>'+item.notes+'</li>';
+							restroomDetails.append(notes);}	
+						})
+						
+						window.location.assign("http://REDACTED/REDACTED/rr#details");
+						$('#rrDetails').listview('refresh');
+					},
+					error: function(){
+						restroomDetails.text('There was an error in performing your search.');
+					}
+				});
+			};
+		</script>	
+<script type="text/javascript">
+		var markers = [];
+		var oldlat = '';
+		var oldlon = '';
+				function makemap() {
+					var mapcanvas = $("#map-canvas");
+					//dataString = 'building_id=' + chosenid;
+					//document.getElementById('listofrooms').innerHTML="";
+					var postData = $('form').serialize();
+					var oldname = '';
+					
+					$.ajax({
+						url: 'anothermapsearch.php',
+						type: 'POST',
+						data: postData,
+						dataType: 'jsonp',
+						jsonp: 'jsoncallback',
+						success: function(data, status){
+						
+							var o = 0;
+													
+							$.each(data, function(i,item){ 
+							
+							if (oldlat == '' && oldlon == '') {
+							
+								bathroom = '';
+								bathroom = '<div class="mapmatch"><a href="" onclick="details('+item.id+');">Floor '+item.floor+': '+item.label+'<br/>';
+								
+								if (item.wheelchair_access==1){
+									bathroom = bathroom + '<div class="featureicon accessibleicon"></div>';}
+								if(item.accessible_sink==1){
+									bathroom = bathroom + '<div class="featureicon sinkicon"></div>';}
+								if(item.sharps==1){
+									bathroom = bathroom + '<div class="featureicon sharpsicon"></div>';}
+								if(item.lactation==1){
+									bathroom = bathroom + '<div class="featureicon lactationicon"></div>';}
+								if(item.changing_table==1){
+									bathroom = bathroom + '<div class="featureicon changingtableicon"></div>';}
+								if(item.braille_sign==1){
+									bathroom = bathroom + '<div class="featureicon brailleicon"></div>';}
+								if(item.shower==1){
+									bathroom = bathroom + '<div class="featureicon showericon"></div>';}
+								if(item.private==1){
+									bathroom = bathroom + '<div class="featureicon privateicon"></div>';}
+								if(item.wheelchair_access==0 && item.accessible_sink==0 && item.sharps==0 && item.lactation==0 && item.changing_table==0 && item.braille_sign==0 && item.shower==0 && item.private==0) {
+									bathroom = bathroom + '&nbsp; &nbsp; &nbsp; no special features.';}
+									
+								bathroom = bathroom + '</a></div>';
+								oldlat = item.lat;
+								oldlon = item.lon;
+								oldname = item.name;
+							}
+							else if (item.lat == oldlat && item.lon == oldlon) {
+							
+								bathroom = bathroom+'<div class="mapmatch"><a href="" onclick="details('+item.id+');">Floor '+item.floor+': '+item.label+'<br/>';
+								
+								if (item.wheelchair_access==1){
+									bathroom = bathroom + '<div class="featureicon accessibleicon"></div>';}
+								if(item.accessible_sink==1){
+									bathroom = bathroom + '<div class="featureicon sinkicon"></div>';}
+								if(item.sharps==1){
+									bathroom = bathroom + '<div class="featureicon sharpsicon"></div>';}
+								if(item.lactation==1){
+									bathroom = bathroom + '<div class="featureicon lactationicon"></div>';}
+								if(item.changing_table==1){
+									bathroom = bathroom + '<div class="featureicon changingtableicon"></div>';}
+								if(item.braille_sign==1){
+									bathroom = bathroom + '<div class="featureicon brailleicon"></div>';}
+								if(item.shower==1){
+									bathroom = bathroom + '<div class="featureicon showericon"></div>';}
+								if(item.private==1){
+									bathroom = bathroom + '<div class="featureicon privateicon"></div>';}
+								if(item.wheelchair_access==0 && item.accessible_sink==0 && item.sharps==0 && item.lactation==0 && item.changing_table==0 && item.braille_sign==0 && item.shower==0 && item.private==0) {
+									bathroom = bathroom + '&nbsp; &nbsp; &nbsp; no special features.';}
+									
+								bathroom = bathroom + '</a></div>';
+								oldlat = item.lat;
+								oldlon = item.lon;
+								oldname = item.name;
+							}
+							else {
+							
+								complete = '<span class="buildingname">' + oldname + '</span><br/>' + bathroom;
+								markers[o] = [complete, oldlat, oldlon];
+								o = o + 1;
+								bathroom = '';
+								bathroom = '<div class="mapmatch"><a href="" onclick="details('+item.id+');">Floor '+item.floor+': '+item.label+'<br/>';
+								
+								if (item.wheelchair_access==1){
+									bathroom = bathroom + '<div class="featureicon accessibleicon"></div>';}
+								if(item.accessible_sink==1){
+									bathroom = bathroom + '<div class="featureicon sinkicon"></div>';}
+								if(item.sharps==1){
+									bathroom = bathroom + '<div class="featureicon sharpsicon"></div>';}
+								if(item.lactation==1){
+									bathroom = bathroom + '<div class="featureicon lactationicon"></div>';}
+								if(item.changing_table==1){
+									bathroom = bathroom + '<div class="featureicon changingtableicon"></div>';}
+								if(item.braille_sign==1){
+									bathroom = bathroom + '<div class="featureicon brailleicon"></div>';}
+								if(item.shower==1){
+									bathroom = bathroom + '<div class="featureicon showericon"></div>';}
+								if(item.private==1){
+									bathroom = bathroom + '<div class="featureicon privateicon"></div>';}
+								if(item.wheelchair_access==0 && item.accessible_sink==0 && item.sharps==0 && item.lactation==0 && item.changing_table==0 && item.braille_sign==0 && item.shower==0 && item.private==0) {
+									bathroom = bathroom + '&nbsp; &nbsp; &nbsp; no special features.';}
+									
+								bathroom = bathroom + '</a></div>';
+								oldlat = item.lat;
+								oldlon = item.lon;
+								oldname = item.name;
+								}
+								
+								complete = '<span class="buildingname">' + oldname + '</span><br/>' + bathroom;
+								markers[o] = [complete, oldlat, oldlon];
+								
+								//document.getElementById('bName').innerHTML=item.name+'<br>Bathrooms';
+							});
+							
+							window.location.assign("http://REDACTED/~REDACTED/rr#mapresult");
+							//$('#listofrooms').listview('refresh');
+							//$("#mapresult").trigger("create");
+							detectBrowser();
+							initialize();
+							//hokeypokey();
+						},
+						error: function(){
+							//roomlist.write(chosenid);
+							mapcanvas.text('There was an error loading the data.');
+						}
+					});
+				};
+				
+		//$(document).delegate("#mapresult", "pagebeforecreate", function() {
+		  //alert('A page with an id of "aboutPage" is about to be created by jQuery Mobile!');
+		//});
+				
+		//$('.page-map').live("pagecreate", function() {
+			//	initialize();
+				//});
+				
+//	  function hokeypokey() {
+//		document.getElementById('test').innerHTML = markers[0]+' '+markers[1]+' '+markers[2];
+//	  };
+
+			function detectBrowser() {
+			  var useragent = navigator.userAgent;
+			  var mapdiv = document.getElementById("map-canvas");
+
+			  if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1 ) {
+				mapdiv.style.width = '100%';
+				mapdiv.style.height = '100%';
+			  } else {
+				mapdiv.style.width = '600px';
+				mapdiv.style.height = '800px';
+			  }
+			}
+
+	
+      function initialize() {
+	  
+		var centerLatLng = new google.maps.LatLng(oldlat, oldlon);
+        var mapOptions = {
+          center: centerLatLng,
+          zoom: 14,
+		  maxZoom: 14,
+		  minZoom: 14,
+		  disableDoubleClickZoom: true,
+		  mapTypeControl: false,
+		  streetViewControl: false,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+		var info = new google.maps.InfoWindow();
+		
+			for (i=0; i<markers.length; i++) {
+			  marker = new google.maps.Marker({
+			  position: new google.maps.LatLng(markers[i][1], markers[i][2]),
+			  map: map,
+			});
+			  google.maps.event.addListener(marker, 'click', (function(marker, i) {
+			    return function() {
+				  info.setContent(markers[i][0]);
+				  info.open(map, marker);
+				}
+			})(marker, i));
+			};
+	
+	  $("#mapresult").show();
+				  google.maps.event.trigger(map,'resize');
+				  map.setZoom(map.getZoom());
+				  map.panTo(new google.maps.LatLng(oldlat, oldlon));
+      }
+	  
+		$(function() {
+			$("#mapresult").live("pagehide", function(){
+			  $("#mapresult").hide();
+			});
+		});
+//		$(function() {
+//			$("#mapresult").live("pageshow", function() {
+//			  $("#mapresult").show();
+//			});
+//		});
+		
+
+	  //$("#mapresult").on('pagebeforeshow', '[data-role="page"]#mapresult' , initialize());
+				
+</script>		
+	
+	</body>
+
+</html>	
