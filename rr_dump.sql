@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.1.69, for redhat-linux-gnu (x86_64)
 --
--- Host: localhost    Database: thompsonk
+-- Host: localhost    Database: REDACTED
 -- ------------------------------------------------------
 -- Server version	5.1.69
 
